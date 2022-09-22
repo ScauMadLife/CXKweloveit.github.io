@@ -1,0 +1,29 @@
+strcpy函数的用法-
+
+力扣12题，整数转换罗马数字，思路非常简单，对于给定的数字num,依次从最大的数字单位1000开始递减，每次递减就在结果字符串中加入相应的罗马符号；比如对于数字2030，减两次1000后数字开始小于1000，然后结果字符串中会加入两个M，只要建立一个罗马字符与数字对应的数组就可以。在C++/Java中对于字符串的拼接只需要使用'+'就可以解决，这个在C中是办不到的，C中并没有string这种对象，因此需要使用strcpy函数来完成这个操作。
+首先，给出整道题的解决方案(参考了力扣的官解)：
+
+//思路：将字符与数字大小一一对应，然后从大到小依次减去这些数字，每减去一次，就在字符里多加上一个字符
+
+const int value[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+const char *symbol[] = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+char * intToRoman(int num){
+    char *roman = malloc(sizeof(char) * 16);
+    roman[0] = "\0";
+        for(int i = 0; i < 13; ++i){
+            while(num >= value[i]){
+                num -= value[i];
+                strcpy(roman + strlen(roman), symbol[i]);
+            }
+            if(num <= 0) break;
+        }
+    return roman;
+}
+
+
+最早我对于strcpy函数的理解只有，将原字符串拷贝到目标字符串当中，是将原字符串整个拷贝进原字符串的空间当中。因此，在看到这道题的解法时，非常不解，为什么symbol[i]可以拼接在roman的末尾处？后来就去查阅了有关于strcpy函数的相关内容：
+
+char *strcpy(char *dest, const char *src)
+观察这个声明可以注意到函数的参数实际上是指针，也就说实际上是将src所指的内容，复制到以dest所指的内容为开始的一段连续的内存当中，那么就可以理解题解当中的操作了：
+
+strcpy(roman + strlen(roman), symbol[i]); // 指针后移strlen(roman)位，正好达到roman的末尾，此时将symbol[i]复制进这个末尾的位置，完成字符串的拼接操作
