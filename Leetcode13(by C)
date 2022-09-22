@@ -1,0 +1,31 @@
+### 解题思路
+从最后一位往前数，定义一个最大值，当遇到比最大值大的时候，原数与其相加，更新最大值，否则减去当前值
+
+### 代码
+
+```c
+int romanToInt(char * s){
+    int symbolValues[26];
+    symbolValues['I'-'A']=1;
+    symbolValues['V'-'A']=5;
+    symbolValues['X'-'A']=10;
+    symbolValues['L'-'A']=50;
+    symbolValues['C'-'A']=100;
+    symbolValues['D'-'A']=500;
+    symbolValues['M'-'A']=1000;
+    int max=0;
+    int sum=0;
+    for(int i=strlen(s)-1;i>=0;i--)
+    {
+        if(symbolValues[s[i]-'A']>=max)
+        {
+            max=symbolValues[s[i]-'A'];
+            sum+=symbolValues[s[i]-'A'];
+        }
+        else{
+            sum-=symbolValues[s[i]-'A'];
+        }
+    }
+    return sum;
+}
+```
