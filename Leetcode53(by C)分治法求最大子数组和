@@ -1,0 +1,58 @@
+### 解题思路
+分治法
+
+### 代码
+
+```c
+int CrossingSubArray(int *nums,int low,int mid,int high)
+{
+    int smaxLeft=-10000;
+    int sums1=0;
+    for(int l=mid;l>=low;l--)
+    {
+        sums1=sums1+nums[l];
+        smaxLeft=fmax(smaxLeft,sums1);   //找到smaxLeft最大值
+    }
+    int smaxRight=-10000;
+    int sums2=0;
+    for(int r=mid+1;r<=high;r++)
+    {
+        sums2=sums2+nums[r];
+        smaxRight=fmax(smaxRight,sums2);
+    }
+    int sums3=smaxLeft+smaxRight;
+    return sums3;
+}
+
+int compareMax(int s1,int s2,int s3)
+{
+    int maxt=s1;
+    if(s2>maxt)
+        maxt=s2;
+    if(s3>maxt)
+        maxt=s3;
+
+    return maxt;
+}
+
+int MaxSubArray(int* nums, int low,int high)
+{
+    if(low==high)
+        return nums[low];
+    else
+    {
+        int mid=(low+high)/2;
+        int S1=MaxSubArray(nums,low,mid);
+        int S2=MaxSubArray(nums,mid+1,high);
+        int S3=CrossingSubArray(nums,low,mid,high);
+        int Smax=compareMax(S1,S2,S3);
+
+        return Smax;
+    }
+}
+
+int maxSubArray(int* nums, int numsSize){
+    return MaxSubArray(nums,0,numsSize-1);
+
+}
+```
