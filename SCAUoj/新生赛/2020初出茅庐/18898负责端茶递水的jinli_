@@ -1,0 +1,44 @@
+#include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
+#include <iostream>//C++
+#include <string>
+#include <algorithm>
+using namespace std;
+#include<stdio.h>
+
+#define OK 1
+#define ERROR 0
+int main()
+{
+    char bg[10005];//被改
+    char mb[10005];//目标
+    gets(bg);
+    gets(mb);
+    int cnt1=0,cnt2=0;
+    //在目标中找被改
+    char *mbzbg=strstr(mb,bg);
+    int mbsize=strlen(mb);
+    int bgsize=strlen(bg);
+    
+    if(mbzbg)
+        {
+            cout<<mbsize-bgsize<<endl;//e.g. 123  12345
+            return 0;
+        }
+    
+	
+	char *first=strstr(mb,bg);
+    while(!first)
+    {
+        bgsize=strlen(bg);
+        for(int i=0;i<bgsize-1;i++)
+            bg[i]=bg[i+1];		//删除第一个字母直到bg是mb的子串 (最坏情况 len(bg)+len(mb) )
+        bg[bgsize-1]='\0';
+        first=strstr(mb,bg);	//当被改是目标字符串的子串时，退出得到移动次数为cnt + 长度差mb-bg；否则继续更改 
+        cnt1++;
+    }
+     bgsize=strlen(bg);			//当前bg长度，原理如最初查找	
+    cout<<cnt1+mbsize-bgsize;
+    return 0;
+}
