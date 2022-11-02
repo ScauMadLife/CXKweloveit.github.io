@@ -1,0 +1,33 @@
+洛谷
+https://www.luogu.com.cn/problem/P5594
+
+
+	#include <iostream>
+	
+	/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+	
+	int a[1010][1010];
+	
+	int main(int argc, char** argv) {
+		int n,m,k;
+		scanf("%d%d%d",&n,&m,&k);//输入n,m,k;
+		for(int i=1;i<=n;i++)
+		{
+			for(int j=1;j<=m;j++)
+			{
+				int day;
+				scanf("%d",&day);
+				a[day][j]=1;  //标记，在第day天做了第j套题
+			}
+		}
+		for(int i=1;i<=k;i++)//循环到k天
+		{
+			for(int j=1;j<=m;j++)
+			{
+				a[i][j] += a[i][j-1]; //累加当天的套题种类数
+			}
+			printf("%d ",a[i][m]);  //输出当天套题种类数和
+		}
+		
+		return 0;
+	}
