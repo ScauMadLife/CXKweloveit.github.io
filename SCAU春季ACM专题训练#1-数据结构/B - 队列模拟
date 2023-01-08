@@ -1,0 +1,75 @@
+#include <iostream>
+#include <string.h>
+#include <cstdio>
+#include <math.h>
+#include <map>
+#include<queue>
+#include<algorithm>
+#define ll long long
+#define MAX 300000+10
+using namespace std;
+int num[MAX];
+int ans[MAX];
+int vis[MAX];
+queue<int>Q[MAX];
+
+int a,b;
+int c[200005];
+char d[100005];
+//ll a[200005];
+
+double mean;
+map <double,ll> m;
+
+int main()
+{
+    int n, q;
+    scanf("%d %d", &n, &q);
+    int cnt=0;
+    int sum=0;
+    int now=0;
+    memset(vis,0,sizeof(vis));
+    memset(ans,0,sizeof(ans));
+    memset(num,0,sizeof(num));
+    for (int i = 1; i <= q; i++)
+    {
+        scanf("%d%d",&a,&b);//事件a,应用b
+        if(a == 1)
+        {
+            num[b]++;
+            sum++;
+            ans[++cnt]=b;//第cnt条信息是由应用b产生的
+            Q[b].push(cnt);
+        }
+        else if(a == 2)
+        {
+            while(!Q[b].empty())
+            {
+                int k = Q[b].front();
+                Q[b].pop();
+                vis[k] = 1;
+            }
+            sum = sum - num[b];
+            num[b] = 0;
+        }
+        else
+        {
+             for(int i=now+1;i<=b;i++)
+             {
+                 if(vis[i])
+                    continue;
+                 int temp = ans[i];
+                 Q[temp].pop();
+                 num[temp]--;
+                 sum--;
+                 vis[i]=1;
+             }
+             now = max(b,now);
+        }
+        printf("%d\n",sum);
+
+
+    }
+    return 0;
+}
+
