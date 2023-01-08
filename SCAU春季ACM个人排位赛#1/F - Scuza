@@ -1,0 +1,35 @@
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+ 
+const int N = 2e5 + 10;
+long long int a[N],b[N],sum[N],c[N];
+ 
+int main() {
+	int T;
+	scanf("%d",&T);
+	while(T--)
+	{
+		int n,m;
+		scanf("%d%d",&n,&m);
+		memset(sum,0,sizeof(sum));
+		memset(c,0,sizeof(c));
+		for(int i = 1; i <= n; i++)
+		{
+			scanf("%d",&a[i]);
+			sum[i] = sum[i - 1] + a[i];
+			c[i] = max(c[i - 1],a[i]);
+		}	
+		for(int i = 1; i <= m; i++)
+		{
+			scanf("%d",&b[i]);
+		}
+		for(int i = 1; i <= m; i++)
+		{
+				int j = upper_bound(c + 1, c + n + 1, b[i]) - c;
+				printf("%lld ",sum[j - 1]);
+		}	
+		printf("\n");
+	}	
+	return 0;
+}
