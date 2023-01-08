@@ -1,0 +1,58 @@
+#include <iostream>
+#include <string.h>
+#include <cstdio>
+#include <math.h>
+#include <map>
+#define ll long long
+using namespace std;
+int c[200005];
+char d[100005];
+ll a[200005];
+int t,n;
+ll sum,ans;
+double mean;
+map <double,ll> m;
+
+int main()
+{
+    int t;
+    scanf("%d",&t);
+    while(t--)
+    {
+        memset(a,0,sizeof(a));
+		m.clear();
+        ans = 0;
+        sum = 0;
+        mean = 0;
+        int n;
+        scanf("%d",&n);
+        for(int i=0;i<n;i++)
+        {
+            scanf("%lld",&a[i]);
+            m[a[i]]++;
+            sum = sum + a[i];
+        }
+        mean = (double)sum/n;
+        if(sum*2%n!=0)
+        {
+            printf("0\n");
+            continue;
+        }
+        for(int i=0;i<n;i++)
+        {
+            if(a[i]==mean)
+            {
+                ans = ans + m[mean] -1;
+            }
+            else
+            {
+                ans = ans + m[2*mean - a[i]];
+            }
+            m[a[i]]--;
+            }
+            printf("%lld\n",ans);
+    }
+        return 0;
+}
+
+
