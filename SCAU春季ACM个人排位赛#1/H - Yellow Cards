@@ -1,0 +1,75 @@
+#include <iostream>
+#include <string.h>
+#include <cstdio>
+#include <math.h>
+#include <map>
+#include<queue>
+#include<algorithm>
+#define ll long long
+#define MAX 300000+10
+using namespace std;
+
+const int N = 1e3+10;
+int n,k1,k2,k;
+ll t1[N];
+ll t2[N];
+priority_queue<ll> q;
+
+ll a[100005];
+
+int maxplayerjudge(int a1,int a2,int k1,int k2,ll n)
+{
+    if(k1 > k2)//若k2比k1小，求最大先满足a2团队被淘汰
+    {
+        if(n < a2*k2)//n不够让a2全被淘汰
+        {
+            return n/k2;
+        }
+        else{
+            return a2 + (n - a2*k2)/k1;
+        }
+    }
+    else if(k1 < k2)
+    {
+        if(n < a1*k1)//n不够让a1全被淘汰
+        {
+            return n/k1;
+        }
+        else{
+            return a1 + (n - a1*k1)/k2;
+        }
+    }
+    else if(k1 == k2)
+    {
+        return n/k1;
+    }
+    return 0;
+}
+
+
+int main()
+{
+    int a1, a2, k1, k2;
+    ll n;
+    scanf("%d%d%d%d%lld",&a1,&a2,&k1,&k2,&n);
+    int minplayer=-1,maxplayer=-1;
+    if(n == a1*k1 + a2*k2)
+    {
+        minplayer = maxplayer =a1 + a2;
+    }
+    else if(n<a1*k1+a2*k2)
+    {
+        maxplayer = maxplayerjudge(a1,a2,k1,k2,n);
+
+        if(n > a1*(k1-1) + a2*(k2-1))//min情况分界线为每人都差一张黄牌达到上限
+        {
+            minplayer = n - (a1*(k1-1) + a2*(k2-1));
+        }
+        else{
+            minplayer = 0;
+        }
+    }
+
+    printf("%d %d",minplayer,maxplayer);
+}
+
