@@ -1,0 +1,45 @@
+#include <iostream>
+#include <string.h>
+#include <cstdio>
+#include <math.h>
+#include <map>
+#include<queue>
+#include<algorithm>
+#define ll long long
+//#define MAX 300000+10
+
+
+using namespace std;
+const int N=205;
+int c[530];
+char a[N];
+//priority_queue <int,vector<int>,greater<int>> que;//< 类型 ， 容器 ， 排序方法:less<int>大顶堆，greater<int>小顶堆 >
+
+int main()
+{
+    int T;
+    scanf("%d",&T);
+    for(int t=1;t<=T;t++)
+    {
+        ll b;
+        scanf("%s",a);
+        scanf("%lld",&b);
+
+        int len=strlen(a);
+        ll ans=0;
+        for(int i=0; i<len; i++)
+        {
+            if(a[i]=='-')
+                continue;
+            ans=ans*10+a[i]-'0';
+            if(ans>=b)
+                ans%=b;
+        }
+        if(ans==0)
+            printf("Case %d: divisible\n",t);
+        else
+            printf("Case %d: not divisible\n",t);
+    }
+
+    return 0;
+}
